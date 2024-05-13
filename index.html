@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rckstr Proxy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            width: 400px;
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+        #response {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rckstr Proxy</h1>
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <button onclick="sendRequest()">Go</button>
+    <div id="response"></div>
+
+    <script>
+        function sendRequest() {
+            var url = document.getElementById("urlInput").value;
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+            fetch("/proxy?url=" + encodeURIComponent(url))
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("response").innerText = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById("response").innerText = "Error: " + error.message;
+                });
+        }
+    </script>
+</body>
+</html>
